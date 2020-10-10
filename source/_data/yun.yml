@@ -1,0 +1,111 @@
+favicon: /favicon.ico
+
+banner:
+  enable: true
+  title: 
+    - 猫
+    - 九
+    - 大
+    - 大
+    - の
+    - Blog
+  src: /js/ui/banner.js
+  border: true
+  cloud:
+    enable: true
+    color: "white"
+  go_down:
+    enable: true
+    icon: icon-arrow-down-s-line
+
+mode: auto
+
+bg_image:
+  enable: true
+  url: https://blog.res.jianchengwang.info/blog-bg.jpg
+  # dark:
+  # blur: 30px # 设置背景模糊程度
+  opacity: 0.2
+
+avatar:
+  enable: true
+  url: https://blog.res.jianchengwang.info/avatar.jpg
+  rounded: true
+  opacity: 1
+  mickey_mouse: false
+  status:
+    enable: true
+    message: balalalalala....
+
+menu:
+  home:
+    path: /
+    icon: icon-home-4-line
+  list:
+    - type: archives
+      path: /archives/
+      icon: icon-archive-line
+    - type: categories
+      path: /categories/
+      icon: icon-folder-2-line
+    - type: tags
+      path: /tags/
+      icon: icon-price-tag-3-line
+  custom:
+    title: 相册
+    path: /albums
+    icon: icon-settings-line
+
+social:
+  - name: GitHub
+    link: https://github.com/jianchengwang
+    icon: icon-github-line
+    color: "#181717"
+  - name: E-Mail
+    link: mailto:jianchengwang80@gmail.com
+    icon: icon-mail-line
+    color: "#8E71C1"
+  - name: Weibo
+    link: https://weibo.com/wjc750145113
+    icon: icon-weibo-line
+    color: "#E6162D"
+
+reward:
+  enable: true
+  icon: icon-hand-coin-line
+  comment: Buye me a cup of coffee or ice coke.
+  methods:
+    - name: Alipay
+      path: https://blog.res.jianchengwang.info/alipay.PNG
+      color: "#00A3EE"
+      icon: icon-alipay-line
+    - name: WechatPay
+      path: https://blog.res.jianchengwang.info/wxpay.PNG
+      color: "#2DC100"
+      icon: icon-wechat-pay-line
+
+albums:
+  enable: true
+
+girls:
+  enable: true
+
+pages:
+  - name: 我的小伙伴们
+    url: /links/
+    icon: icon-genderless-line
+    color: dodgerblue
+  - name: 喜欢的女孩子
+    url: /girls/
+    icon: icon-women-line
+    color: hotpink
+
+widget_tree:
+  cdn: true
+  hide: false
+  layout: default
+  toc:
+    enable: true
+
+footer:
+  since: 2020
