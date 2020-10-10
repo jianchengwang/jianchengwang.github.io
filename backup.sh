@@ -6,6 +6,10 @@ git add -A
 git commit -m "$info"
 git push origin hexo
 
+cd ./themes/yun
+git pull
+
+cd ../../
 hexo clean &&  hexo g && hexo d
 
 rm -rf /root/www/blog/*
