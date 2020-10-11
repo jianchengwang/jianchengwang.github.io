@@ -38,5 +38,17 @@ girls:
     avatar: https://blog.res.jianchengwang.info/girls/huihui.jpg
     from: 为美好的世界献上祝福
     reason: 为万恶的动画人设献上爆炎!!!!
+  
+  - name: 赤瞳
+    avatar: https://blog.res.jianchengwang.info/girls/chitong.jfif
+    from: 斩·赤红之瞳
+    reason: 葬送，一斩必杀!!!!
+
+  - name: 玛茵
+    avatar: https://blog.res.jianchengwang.info/girls/mayin.jpeg
+    from: 斩·赤红之瞳
+    reason: 傲娇即是正义，哼!!!!
+
+
 
 ---
