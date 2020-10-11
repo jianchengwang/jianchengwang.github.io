@@ -35,7 +35,7 @@ avatar:
   mickey_mouse: false
   status:
     enable: true
-    message: balabalabalala....
+    message: balabala....
 
 menu:
   home:
@@ -52,9 +52,9 @@ menu:
       path: /tags/
       icon: icon-price-tag-3-line
   custom:
-    title: 相册
+    title: Albums
     path: /albums
-    icon: icon-settings-line
+    icon: icon-gallery-line
 
 social:
   - name: GitHub
@@ -69,6 +69,10 @@ social:
     link: https://weibo.com/wjc750145113
     icon: icon-weibo-line
     color: "#E6162D"
+  - name: Travelling
+    link: https://travellings.now.sh/
+    icon: icon-send-plane-2-line
+    color: orange
 
 reward:
   enable: true
@@ -100,6 +104,10 @@ pages:
     icon: icon-women-line
     color: hotpink
 
+post_edit:
+  enable: true
+  url: https://github.com/jianchengwang/jianchengwang.github.io/tree/hexo/source/
+
 widget_tree:
   cdn: true
   hide: false
@@ -107,5 +115,14 @@ widget_tree:
   toc:
     enable: true
 
+codeblock:
+  copy_btn: true
+  prismjs:
+    light: default
+    dark: tomorrow
+
 footer:
   since: 2020
+  beian:
+    enable: true
+    icp: 闽ICP备16000680号
