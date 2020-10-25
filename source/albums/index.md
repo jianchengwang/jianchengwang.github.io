@@ -16,5 +16,10 @@ albums:
     cover: https://blog.res.jianchengwang.info/albums/chitong/1.jpg
     desc: 一斩必杀
 
+  - caption: Wallpaper
+    url: /albums/wallpaper.html
+    cover: https://blog.res.jianchengwang.info/albums/wallpaper/1.jpg
+    desc: Wallpaper
+
 
 ---
