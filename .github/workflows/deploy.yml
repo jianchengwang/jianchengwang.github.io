@@ -1,0 +1,52 @@
+
+name: CI
+on:
+  push:
+    branches: [ hexo ]
+    paths-ignore:
+      - README.md
+      - backup.sh
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+#       - uses: actions/checkout@v2
+        
+#       - name: Setup Node
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: "12.x" 
+      
+#       - run: yarn install
+#       - run: yarn build
+      
+#       - name: Deploy Github Page
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./public
+#           publish_branch: public
+#           force_orphan: true
+          
+#       - name: Deploy Ty
+#         uses: AEnterprise/rsync-deploy@v1.0  # 使用别人包装好的步骤镜像
+#         env:
+#           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}   # 引用配置，SSH私钥
+#           ARGS: -avz --delete --exclude='*.log'   # rsync参数，排除.log文件
+#           SERVER_PORT: '22'  # SSH端口
+#           FOLDER: ./public  # 要推送的文件夹，路径相对于代码仓库的根目录
+#           SERVER_IP: ${{ secrets.SSH_HOST }}  # 引用配置，服务器的host名（IP或者域名domain.com）
+#           USERNAME: ${{ secrets.SSH_USERNAME }}  # 引用配置，服务器登录名
+#           SERVER_DESTINATION: /root/www/blog   # 部署到目标文件夹
+
+      - name: exec backup.sh u
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}  # 下面三个配置与上一步类似
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            /root/_git/jianchengwang.github.io/backup.sh u
+        
+        
