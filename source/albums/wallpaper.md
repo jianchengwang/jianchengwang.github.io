@@ -16,5 +16,7 @@ photos:
     src: https://blog.res.jianchengwang.info/albums/wallpaper/5.jpg
   - caption: 6
     src: https://blog.res.jianchengwang.info/albums/wallpaper/6.jpg
+  - caption: 7
+    src: https://blog.res.jianchengwang.info/albums/wallpaper/7.jpg
 
 ---
