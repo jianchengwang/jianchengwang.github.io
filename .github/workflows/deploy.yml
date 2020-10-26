@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - README.md
       - backup.sh
+      - .github/*
 
 jobs:
   build:
@@ -47,6 +48,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
-            /root/_git/jianchengwang.github.io/backup.sh u
-        
+            echo 'deploy begin'
+            cd /root/_git/jianchengwang.github.io
+            ./backup.sh u
+            echo 'deploy done'
         
