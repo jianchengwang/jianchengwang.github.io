@@ -11,7 +11,7 @@ exec 2>&1
 
 commit_() {
   echo 'commit begin..'
-  info=$2
+  info=$1
   if ["$info" = ""]; then
    info=":pencil: update content"
   fi
@@ -38,7 +38,7 @@ shift
 
 case $type in
 c)
-  commit_
+  commit_ $2
   ;;
 u)
   update_
