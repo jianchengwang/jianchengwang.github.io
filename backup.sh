@@ -25,7 +25,7 @@ update_() {
   echo 'update begin'
   git pull
   cd ./themes/yun
-  git pull
+  git pull hexo
   cd ../../
   hexo clean &&  hexo g && hexo d
   rm -rf /root/www/blog/*
@@ -57,7 +57,7 @@ u)
 
   示例：
     安装: sh ./backup.sh c "hello world"
-    重启: sh ./backup.sh i 
+    重启: sh ./backup.sh u 
   '
   ;;
 esac
