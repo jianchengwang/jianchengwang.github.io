@@ -23,7 +23,7 @@ commit_() {
 
 update_() { 
   echo 'update begin'
-  git pull
+  git pull origin hexo
   cd ./themes/yun
   git pull hexo
   cd ../../
