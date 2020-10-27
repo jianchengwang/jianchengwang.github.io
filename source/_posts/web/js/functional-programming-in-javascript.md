@@ -1,11 +1,10 @@
 ---
 title: Functional Programming in JavaScript
 categories: 
-- Web
+- web
+- js
 tags: 
-- Js
-- Fp
-- Web
+- functional programming
 ---
 
  今天瞄了下 `just enough functional programming in javascript` 视频感觉还不错，如果你也感兴趣的话, [请戳](<https://egghead.io/courses/just-enough-functional-programming-in-javascript>)

@@ -1,11 +1,11 @@
 ---
-title: 懂点VPS
+title: vps
 categories: 
-- Linux
+- play
+- gfw
 tags: 
 - vps
-- ssr
-- lamp
+- gfw
 ---
 
 VPS厂商很多，

@@ -1,9 +1,9 @@
 ---
-title: Manjaro Linux
+title: manjaro
 categories: 
-- Linux
+- linux
+- dist
 tags: 
-- shell
 - manjaro
 ---
 

@@ -1,9 +1,10 @@
 ---
-title: Debian
+title: debian
 categories: 
-- Linux
+- linux
+- dist
 tags: 
-- shell
+- debian
 ---
 
 新公司配置的笔记本是 `Win` 系统，因为本人习惯 `Linux` 系统，所以就装了个 `Debian` 子系统玩一下。

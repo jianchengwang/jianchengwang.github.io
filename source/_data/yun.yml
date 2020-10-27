@@ -69,6 +69,10 @@ social:
     link: https://weibo.com/wjc750145113
     icon: icon-weibo-line
     color: "#E6162D"
+  - name: Files
+    link: https://files.jianchengwang.info/
+    icon: icon-folder-line
+    color: dodgerblue
   - name: Travelling
     link: https://travellings.now.sh/
     icon: icon-send-plane-2-line
@@ -95,10 +99,6 @@ girls:
   enable: true
 
 pages:
-  - name: Files
-    url: https://files.jianchengwang.info/
-    icon: icon-folder-2-line
-    color: "#181717"
   - name: Friend Links
     url: /links/
     icon: icon-genderless-line

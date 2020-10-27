@@ -1,7 +1,8 @@
 ---
-title: TLCL
+title: tlcl
 categories: 
-- Linux
+- linux
+- sh
 tags: 
 - shell
 ---

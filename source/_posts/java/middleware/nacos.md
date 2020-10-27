@@ -1,11 +1,10 @@
 ---
 title: nacos
 categories: 
-- Java
-- Middleware
+- java
+- middleware
 tags: 
 - nacos
-- springcloud
 ---
 
 新公司使用 `nacos` 用于发现管理，配置微服务，所以这里做个文档备注下。

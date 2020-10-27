@@ -1,7 +1,8 @@
 ---
-title: 懂点Docker
+title: docker
 categories: 
-- Linux
+- linux
+- soft
 tags: 
 - docker
 ---

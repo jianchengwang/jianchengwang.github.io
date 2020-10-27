@@ -1,9 +1,9 @@
 ---
-title: SSH
+title: ssh
 categories: 
-- Linux
+- linux
+- ssh
 tags:
-- shell
 - ssh
 ---
 

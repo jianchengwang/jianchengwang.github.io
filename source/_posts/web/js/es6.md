@@ -1,11 +1,10 @@
 ---
-title: Learn ES6
+title: es6
 categories: 
-- Web
+- web
+- js
 tags: 
-- Js
-- ES6
-- Web
+- es6
 ---
 
 现代浏览器基本都支持 `ES6` 大部分特性，如果你想知道有哪些浏览器支持 `ES6` 的特性，[请戳](<https://kangax.github.io/compat-table/es6/>)

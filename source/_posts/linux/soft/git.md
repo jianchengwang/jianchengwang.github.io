@@ -1,7 +1,8 @@
 ---
-title: 懂点Git
+title: git
 categories: 
-- Linux
+- linux
+- soft
 tags: 
 - git
 ---

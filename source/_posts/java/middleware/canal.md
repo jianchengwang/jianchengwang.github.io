@@ -1,8 +1,8 @@
 ---
 title: canal
 categories: 
-- Java
-- Middleware
+- java
+- middleware
 tags: 
 - canal
 ---

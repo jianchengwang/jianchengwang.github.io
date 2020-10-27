@@ -1,7 +1,8 @@
 ---
-title: Curl
+title: curl
 categories: 
-- Linux
+- linux
+- sh
 tags: 
 - shell
 ---
