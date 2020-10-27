@@ -13,6 +13,8 @@ tags:
 
 [官网地址](https://manjaro.org/)
 
+<!-- more -->
+
 ### set mirrors
 
 ```shell
@@ -30,8 +32,6 @@ Server = http://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
 sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring
 
 ```
-
-
 
 ### pacman & yay
 
@@ -82,8 +82,6 @@ yay -Syu --devel --timeupdate
 
 ```
 
-
-
 ### config & lib
 
 ```shell
@@ -92,9 +90,7 @@ yay -S lib32-glibc
 yay -S glibc 
 ```
 
-
-
-###  fcitx
+###  fcit
 
 ```shell
 ## add fcitx
@@ -116,8 +112,6 @@ sudo pacman -S fcitx-cloudpinyin
 
 ```
 
-
-
 ### zsh
 
 ```shell
@@ -128,8 +122,6 @@ chsh -s /bin/zsh
 
 sudo pacman -S gconf
 ```
-
-
 
 ### environment variables
 
@@ -144,8 +136,6 @@ export NODE_HOME=/opt/program/node-v8.12.0-linux-x64
 
 export PATH=$PATH:${JAVA_HOME}/bin:${NODE_HOME}/bin:${MAVEN_HOME}/bin
 ```
-
-
 
 ### mount & fstab
 

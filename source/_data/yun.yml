@@ -120,6 +120,12 @@ codeblock:
   prismjs:
     light: default
     dark: tomorrow
+    
+github_issues:
+  enable: true
+  username: jianchenwang
+  repository: jianchengwang.github.io
+  filters: is:issue
 
 footer:
   since: 2020

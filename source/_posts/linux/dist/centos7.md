@@ -10,6 +10,8 @@ tags:
 
 因为公司服务器都是centos7 服务器系统，所以这里对centos 7 的常规配置做一个简要的记录，方便后期维护。这里我用vmware 简单安装一个centos7 简单的演示。
 
+<!-- more -->
+
 ## 基础知识
 
 ### 安装基础软件
@@ -94,8 +96,6 @@ yum -y update
 
 ### 常用命令
 
-
-
 #### 系统命令
 
 ```shell
@@ -124,8 +124,6 @@ cal 10 1988	# 显示指定月，年的月历
 
 ```
 
-
-
 #### 磁盘管理
 
 ```shell
@@ -153,8 +151,6 @@ umount /dev/hdc6 # 卸载
 
 
 ```
-
-
 
 #### 文件目录
 
@@ -186,8 +182,6 @@ rm -f file1	# 删除 ‘file1’
 rm -rf dir1	# 删除 ‘dir1’ 目录及其子目录内容
 ```
 
-
-
 #### 文本操作
 
 ```shell
@@ -208,8 +202,6 @@ more file1	# 查看一个长文件的内容
 
 ```
 
-
-
 #### 文本处理
 
 ```shell
@@ -225,8 +217,6 @@ diff file1 file2	# 找出两个文件的不同处
 # sdiff
 sdiff file1 file2	# 以对比的方式显示两个文件的不同
 ```
-
-
 
 #### 文件查询
 
@@ -247,8 +237,6 @@ find -maxdepth 1 -type f | xargs grep -F 'expr'	# 在当前目录中查找 expr
 locate *.ps	寻找以 .ps 结尾的文件，先运行 updatedb 命令
 ```
 
-
-
 #### 文件权限
 
 ```shell
@@ -263,8 +251,6 @@ chmod u=rwx,g=rw,o=r f01
 chmod 764 f01
 chmod a+x f01　　# 对文件f01的u,g,o都设置可执行属性
 ```
-
-
 
 #### 压缩解压
 
@@ -294,8 +280,6 @@ unzip file1.zip	# 解压一个zip格式的压缩包到当前目录
 unzip test.zip -d /tmp/	# 解压一个zip格式的压缩包到 /tmp 目录
 ```
 
-
-
 #### 软件安装
 
 ```shell
@@ -319,8 +303,6 @@ yum clean [package]	# 清除缓存目录（/var/cache/yum）下的软件包
 yum clean headers	# 删除所有头文件
 yum clean all	# 删除所有缓存的包和头文件
 ```
-
-
 
 #### 网络管理
 
@@ -358,8 +340,6 @@ wget downloadurl # 下载文件
 curl www.baidu.com # 显示百度网页信息
 ```
 
-
-
 #### 进程管理
 
 ```shell
@@ -375,8 +355,6 @@ kill -9 pid # 强制杀死进程
 # pkill
 pkill java # 杀死java进程
 ```
-
-
 
 #### 系统服务
 
@@ -697,8 +675,6 @@ flush privileges;
 use mysql;
 select host, user from user;
 ```
-
-
 
 #### redis
 

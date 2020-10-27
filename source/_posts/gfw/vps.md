@@ -8,8 +8,6 @@ tags:
 - lamp
 ---
 
-
-
 #### 前言
 
 VPS厂商很多，
@@ -19,6 +17,8 @@ VPS厂商很多，
 如果使用阿里云的话，请戳， [阿里云大使](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=um4bcafi)
 
 以下是vultr的官方测速服务器，你可以进行下载测试，因为运营商或是位置的不同，不同位置速度都有差异，自行选择最适合自己的。
+
+<!-- more -->
 
 | Location 地理位置                           | Hostname 官方测试服务器ip | Download Test File 下载测试文件                              |
 | ------------------------------------------- | ------------------------- | ------------------------------------------------------------ |
@@ -57,8 +57,6 @@ wjc     ALL=(ALL)       ALL
 # 添加ssh公钥到vps主机，以实现免密登录
 ssh-copy-id user@vpsip
 ```
-
-
 
 #### SSR
 

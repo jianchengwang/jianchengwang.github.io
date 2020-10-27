@@ -12,6 +12,8 @@ tags:
 
 [**Git**][https://en.wikipedia.org/wiki/Git] 是一个分布式的管理系统，作者 [Linus Torvalds](https://en.wikipedia.org/wiki/Linus_Torvalds)  2005 创建它，主要是维护linux内核，现在很多人用它作为大型项目的版本控制软件，来管理源代码，或是一些纯文本的笔记或者文档。本篇文字，很多的文本描述，或者图片资源来自互联网，我只是互联网的搬运工，本文仅作为个人学习的一个记录跟总结。我将在最下方列出部分链接，感兴趣的朋友可以去看看。
 
+<!-- more -->
+
 #### 特点
 
 Git 有如下几个特点：

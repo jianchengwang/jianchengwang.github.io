@@ -12,6 +12,8 @@ tags:
 
 最早之前用 `Deepin` 是基于 `Debian` 的，后面用 `Manjaro` 了，忘得差不多了，这里做个记录，方便以后查阅。
 
+<!-- more -->
+
 ### 子系统
 
 ```shell
@@ -22,8 +24,6 @@ net start LxssManager
 # 进入子系统
 bash
 ```
-
-
 
 ### set sources.list
 

@@ -11,6 +11,8 @@ tags:
 
 **canal [kə'næl]**，译意为水道/管道/沟渠，主要用途是基于 MySQL 数据库增量日志解析，提供增量数据订阅和消费
 
+<!-- more -->
+
 ## QuickStart
 
 https://github.com/alibaba/canal/wiki/QuickStart
@@ -68,10 +70,6 @@ sh bin/startup.sh
 firewall-cmd --permanent --zone=public --add-port 11111/tcp
 firewall-cmd --reload
 
-```
-
-```shell
-curl -X GET "http://123.57.82.48:8080/api/sys/manage/reloadProcessMessageParam" -H "accept: */*" -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNTg5NDMyMTM0LCJpYXQiOjE1ODkzNDU3MzR9.xllDn9hrxu4XK8hGD3MsDJlug0KE-PQ3si1_0iuzPUM"
 ```
 
 

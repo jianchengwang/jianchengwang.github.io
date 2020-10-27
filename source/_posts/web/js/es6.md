@@ -14,6 +14,8 @@ tags:
 
 `Node` 是 JavaScript 的服务器运行环境（runtime）。它对 ES6 的支持度更高。除了那些默认打开的功能，还有一些语法功能已经实现了，但是默认没有打开。
 
+<!-- more -->
+
 ```shell
 node --v8-options | grep harmony
 ```

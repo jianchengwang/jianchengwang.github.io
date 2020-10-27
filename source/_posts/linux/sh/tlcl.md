@@ -14,6 +14,8 @@ tags:
 
 [翻译版](http://billie66.github.io/TLCL/book/)
 
+<!-- more -->
+
 ### I/O redirection
 
 ```shell
@@ -29,8 +31,6 @@ ls -l /bin/usr > ls-output.xtx 2>&1 or ls -l /bin/usr &> ls-output.txt
 ls -l /bin/usr 2> /dev/null
 ```
 
-
-
 ### Pipelines
 
 ```shell
@@ -42,8 +42,6 @@ tail -f /var/log/message
 ls /usr/bin | tee ls.txt | grep zip
 
 ```
-
-
 
 ### Expansions and Quoting 
 
@@ -59,8 +57,6 @@ echo "$USER $((2+2)) $(cal)"
 echo '$USER $((2+2)) $(cal)'
 echo "The balance for user $USER is: \$5.00"
 ```
-
-
 
 ### Permission
 
@@ -91,8 +87,6 @@ useradd
 groupadd
 ```
 
-
-
 ### Process
 
 ```shell
@@ -110,8 +104,6 @@ killall
 pstree
 vmstat
 ```
-
-
 
 ### vi
 
@@ -155,8 +147,6 @@ g	This means “global” in the sense that the search and replace is performed 
 :w foo1.txt
 ```
 
-
-
 ### Package Management
 
 ```shell
@@ -165,8 +155,6 @@ pacman -R package_name # remove soft
 pacman -Syu # update system and soft
 pacman -Ss string1 string2 # search
 ```
-
-
 
 ### Storage Devices
 
@@ -186,8 +174,6 @@ md5sum
 df
 ```
 
-
-
 ### Network
 
 ```shell
@@ -205,8 +191,6 @@ get ubuntu-8.04-desktop-i386.iso
 bye
 
 ```
-
-
 
 ### Find File
 
@@ -278,8 +262,6 @@ http://www.gnu.org/software/findutils/
 
 ```
 
-
-
 ### Compression and Archiving
 
 ```shell
@@ -301,8 +283,6 @@ sudo rsync -av --delete --rsh=ssh /etc /home /usr/local remote-sys:/backup
 rsync -av -delete rsync://rsync.gtlib.gatech.edu/fedora-linux-
  core/development/i386/os fedora-devel
 ```
-
-
 
 ### Regular Expression
 
@@ -395,11 +375,7 @@ printf "%s\t%s\t%s\n" str1 str2 str3
 
 ```
 
-
-
 ### Compile
-
-
 
 ```shell
 
