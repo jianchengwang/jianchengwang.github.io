@@ -8,8 +8,6 @@ tags:
 - lamp
 ---
 
-#### 前言
-
 VPS厂商很多，
 
 如果使用**vultr**厂商注册新用户的话，请戳，[vultr推广连接](https://www.vultr.com/?ref=7567014)

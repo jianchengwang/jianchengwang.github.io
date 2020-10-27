@@ -6,8 +6,6 @@ tags:
 - shell
 ---
 
-### 前言
-
 最近学习**Linux Command** ，瞄了下下 **TLCL** 文档，这里做个记录，感兴趣的可以去看下
 
 [原版地址](http://linuxcommand.org/tlcl.php)

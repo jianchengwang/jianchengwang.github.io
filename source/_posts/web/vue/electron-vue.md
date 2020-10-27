@@ -6,8 +6,6 @@ tags:
 - Electron-vue
 ---
 
-##  前言
-
 最近喵到一个开源项目 [PicGo](https://github.com/Molunerfinn/PicGo) ，感觉还不错，顺便翻了下大佬的博客，发现有个实战系列[Electron-vue开发实战]([https://molunerfinn.com/electron-vue-1/#%E5%89%8D%E8%A8%80](https://molunerfinn.com/electron-vue-1/#前言))，于是趁机搞个`Todo`练练手，学习一波[Electron-vue](https://github.com/SimulatedGREG/electron-vue)，以下大部分代码来自大佬的博客，所以感兴趣的去看下大佬的博客吧，我只是搬运工小弟。感觉如果有开发过`java swing`或其他`gui`的应该都大同小异。
 
 <!-- more -->

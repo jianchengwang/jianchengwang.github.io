@@ -7,8 +7,6 @@ tags:
 - Vue
 ---
 
-## 前言
-
 最近喵了下 `introducction to vue.js` 视频感觉还不错，如果感兴趣，[请戳](https://frontendmasters.com/courses/vue/)。下面主要根据视频作者`Sarah Drasner` 的`ppt` 简单做下笔记，当然如果要系统过一遍的话还是推荐看官方文档。
 
 <!-- more -->
