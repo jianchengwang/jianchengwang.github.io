@@ -95,14 +95,19 @@ girls:
   enable: true
 
 pages:
-  - name: 我的小伙伴们
+  - name: Files
+    url: https://files.jianchengwang.info/
+    icon: icon-folder-2-line
+    color: "#181717"
+  - name: Friend Links
     url: /links/
     icon: icon-genderless-line
     color: dodgerblue
-  - name: 喜欢的女孩子
+  - name: Lovely Girls
     url: /girls/
     icon: icon-women-line
     color: hotpink
+
 
 post_edit:
   enable: true

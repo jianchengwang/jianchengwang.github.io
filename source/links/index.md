@@ -1,6 +1,6 @@
 ---
 layout: links
-title: 我的小伙伴们
+title: Friend Links
 date: 2020-10-01 13:06:06
 keywords: 链接
 description: 我的小伙伴们
