@@ -8,3 +8,5 @@ themes/
 .deploy*/
 package-lock.json
 yarn.lock
+
+live2d_models/
