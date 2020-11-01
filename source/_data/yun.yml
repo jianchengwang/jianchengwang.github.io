@@ -137,3 +137,9 @@ footer:
   beian:
     enable: true
     icp: 闽ICP备16000680号
+
+head:
+  js:
+    base: 
+      live2dv3_init: /js/live2dv3_init.js
+

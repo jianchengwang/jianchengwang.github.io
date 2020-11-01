@@ -115,7 +115,7 @@ aplayer:
   asset_inject: false
 
 live2d:
-  enable: true # 是否开启live2d
+  enable: false # 是否开启live2d
   scriptFrom: local # 脚本从本地引入
   pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径)
   pluginJsPath: lib/ # 脚本文件相对与插件根目录路径
@@ -136,3 +136,5 @@ live2d:
     scale: 0.5 # 移动设备上的缩放
   react:
     opacity: 0.7 # 透明度
+
+
