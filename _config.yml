@@ -113,3 +113,26 @@ aplayer:
   meting: true
   meting_cdn: https://cdn.jsdelivr.net/npm/meting@1/dist/Meting.min.js
   asset_inject: false
+
+live2d:
+  enable: true # 是否开启live2d
+  scriptFrom: local # 脚本从本地引入
+  pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径)
+  pluginJsPath: lib/ # 脚本文件相对与插件根目录路径
+  pluginModelPath: assets/ # 模型文件相对与插件根目录路径
+  tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中
+  debug: false # 调试, 是否在控制台输出日志
+  model:
+    use: index # 填写放进live2d_models文件夹中的模型文件夹名字
+    scale: 1 # canvas 模型与canvas的缩放
+  display:
+    width: 150 # 宽度
+    height: 300 # 高度
+    position: left # 显示位置
+    hOffset: 5 #水平偏移
+    vOffset: -20 #垂直偏移
+  mobile:
+    show: false # 手机端是否显示
+    scale: 0.5 # 移动设备上的缩放
+  react:
+    opacity: 0.7 # 透明度

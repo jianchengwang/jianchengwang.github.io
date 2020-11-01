@@ -28,8 +28,7 @@ update_() {
   git pull hexo
   cd ../../
   hexo clean &&  hexo g && hexo d
-  rm -rf /root/www/blog/*
-  cp -rf ./public/. /root/www/blog
+  rm -rf /root/www/blog/* && cp -rf ./public/. /root/www/blog
   echo 'update done'
 }
 
