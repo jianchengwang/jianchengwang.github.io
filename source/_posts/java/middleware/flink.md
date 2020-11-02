@@ -11,6 +11,8 @@ tags:
 
 可以类比 **spring batch** 或者**spark**进行学习,基本流程就是**source->computer/transformation->sink**
 
+本文章的大部分文字都来源于互联网,最底下会附上链接.
+
 <!-- more -->
 
 ### QuickStart
@@ -284,7 +286,7 @@ cd /opt/kafka/bin
 
 ##### 基本转换算子
 
-基本转换算子会针对流中的每一个单独的事件做处理,也就是说每一个输入数据会产生一个输出数据.单值转换,数据的分割,数据的过滤,都是基本转换操作的典型例子.
+基本转换算子会针对流中的每一个单独的事件做处理,也就是说每一个输入数据会产生一个输出数据.单值转换,数据的分割,数据的过滤,都是基本转换操作的典型例子.这个有个概念就行,可以跳过.
 
 ###### filter
 
@@ -377,7 +379,7 @@ DataStream<Tuple3<Integer, Integer, Integer>> resultStream = inputStream
     .sum(1);   // sum the second field of the tuple in place
 ```
 
-###### window,windowAll
+###### window
 
 允许按时间或其他条件对现有 KeyedStream 进行分组.以下是以 10 秒的时间窗口聚合:
 
@@ -691,10 +693,444 @@ public static class MyJDBCSink extends RichSinkFunction<User> {
 
 
 
+#### Window
+
+##### 时间 time
+
+事件时间 **Event Time**,即事件实际发生的时间,可以处理乱序事件,一般都用这个;
+摄入时间 **Ingestion Time**,事件进入流处理框架的时间;
+处理时间 **Processing Time**,事件被处理的时间,执行操作算子的本地时间,与机器无关.统计某些延时非常高的日志.
+
+```java
+final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+//设置时间属性为 EventTime
+env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
+
+DataStream<MyEvent> stream = env.addSource(new FlinkKafkaConsumer09<MyEvent>(topic, schema, props));
+stream
+    .keyBy( (event) -> event.getUser() )
+    .timeWindow(Time.hours(1))
+    .reduce( (a, b) -> a.add(b) )
+    .addSink(...);
+```
+
+```java
+// 这个方法中的 while 循环部分会从 eventTimeTimersQueue 中依次取出触发时间小于参数 time 的所有定时器，调用 triggerTarget.onEventTime() 方法进行触发。这就是 EventTime 从注册到触发的流程。
+InternalTimeServiceImpl.advanceWatermark。
+public void advanceWatermark(long time) throws Exception {
+   currentWatermark = time;
+   InternalTimer<K, N> timer;
+
+   while ((timer = eventTimeTimersQueue.peek()) != null && timer.getTimestamp() <= time) {
+      eventTimeTimersQueue.poll();
+      keyContext.setCurrentKey(timer.getKey());
+      triggerTarget.onEventTime(timer);
+   }
+}
+```
+
+##### 水位线 watermark
+
+###### 概念
+
+**水印的出现是为了解决实时计算中的数据乱序问题，它的本质是 DataStream 中一个带有时间戳的元素**。
+
+如果 Flink 系统中出现了一个 WaterMark T,那么就意味着 EventTime < T 的数据都已经到达,窗口的结束时间和 T 相同的那个窗口被**触发**进行计算了.
+
+也就是说:水印是 Flink 判断迟到数据的标准,同时也是窗口触发的标记.
+
+在程序并行度大于 1 的情况下,会有多个流产生水印和窗口,这时候 Flink 会选取时间戳最小的水印.
+
+###### 使用水印
+
+**a. 在 Source Function 中 直接指定 Timestamps 和 Watermark**
+
+ 用户需要复写 SourceFunction 接口中 run( ) 方法实现数据逻辑, 同时调用 SourceContext 的 collectWithTimestamp( ) 方法生成 event time 时间戳, 调用 emitWatermark( ) 方法生成 watermark.
+
+```java
+DataStream<String> text = env.addSource(new SourceFunction<String>() {
+            @Override
+            public void run(SourceContext<String> ctx) throws Exception {
+                for (String s : elementInput) {
+                    // 切割每一条数据
+                    String[] inp = s.split(",");
+                    Long timestamp = new Long(inp[1]);
+                    // 生成 event time 时间戳
+                    ctx.collectWithTimestamp(s, timestamp);
+                    // 调用 emitWatermark() 方法生成 watermark, 最大延迟设定为 2
+                    ctx.emitWatermark(new Watermark(timestamp - 2));
+                }
+                // 设定默认 watermark
+                ctx.emitWatermark(new Watermark(Long.MAX_VALUE));
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });
+```
+
+**b. 通过 Flink 自带的 Timestamp Assigner 指定 Timestamp 和 生成 watermark**
+
+**b.1 使用 Ascending Timestamp Assigner 指定 Timestamps 和 Watermark**
+
+```java
+ DataStream<Tuple2<String, Long>> dataStream = env.fromCollection(collectionInput);
+        dataStream.assignTimestampsAndWatermarks(
+                (WatermarkStrategy<Tuple2<String, Long>>) context -> new WatermarkGenerator<Tuple2<String,Long>>(){
+                    private long maxTimestamp;
+                    private long delay = 3000;
+                    @Override
+                    public void onEvent(
+                            Tuple2<String,Long> event,
+                            long eventTimestamp,
+                            WatermarkOutput output){
+                        maxTimestamp = Math.max(maxTimestamp, event.f1);
+                    }
+                    @Override
+                    public void onPeriodicEmit(WatermarkOutput output){
+                        output.emitWatermark(new Watermark(maxTimestamp - delay));
+                    }
+                });
+```
+
+**b.2 内置水印生成策略**
+
+**b.2.1 固定延迟生成水印**
+
+通过静态方法`forBoundedOutOfOrderness`提供,入参接收一个Duration类型的时间间隔，也就是我们可以接受的最大的延迟时间.使用这种延迟策略的时候需要我们对数据的延迟时间有一个大概的预估判断。
+
+```java
+WatermarkStrategy#forBoundedOutOfOrderness(Duration maxOutOfOrderness)
+```
+
+我们实现一个延迟3秒的固定延迟水印，可以这样做：
+
+```java
+DataStream dataStream = ...... ;
+dataStream.assignTimestampsAndWatermarks(WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(3)));
+```
+
+他的底层使用的WatermarkGenerator接口的一个实现类BoundedOutOfOrdernessWatermarks。我们看下源码中的这两个方法，是不是和我们上面自己写的很像.
+
+```java
+ @Override
+ public void onEvent(T event, long eventTimestamp, WatermarkOutput output) {
+  maxTimestamp = Math.max(maxTimestamp, eventTimestamp);
+ }
+
+ @Override
+ public void onPeriodicEmit(WatermarkOutput output) {
+  output.emitWatermark(new Watermark(maxTimestamp - outOfOrdernessMillis - 1));
+ }
+```
+
+**b.2.2 单调递增生成水印**
+
+通过静态方法`forMonotonousTimestamps`来提供.
+
+```java
+WatermarkStrategy.forMonotonousTimestamps()
+```
+
+这个也就是相当于上述的延迟策略去掉了延迟时间，以event中的时间戳充当了水印。
+
+在程序中可以这样使用：
+
+```java
+DataStream dataStream = ...... ;
+dataStream.assignTimestampsAndWatermarks(WatermarkStrategy.forMonotonousTimestamps());
+```
+
+它的底层实现是AscendingTimestampsWatermarks，其实它就是BoundedOutOfOrdernessWatermarks类的一个子类，没有了延迟时间，我们来看看具体源码的实现.
+
+```java
+@Public
+public class AscendingTimestampsWatermarks<T> extends BoundedOutOfOrdernessWatermarks<T> {
+
+ /**
+  * Creates a new watermark generator with for ascending timestamps.
+  */
+ public AscendingTimestampsWatermarks() {
+  super(Duration.ofMillis(0));
+ }
+}
+```
+
+###### event时间的获取
+
+上述我们讲了flink自带的两种水印生成策略，但是对于我们使用eventtime语义的时候，我们想从我们的自己的数据中抽取eventtime，这个就需要TimestampAssigner了.
+
+```java
+@Public
+@FunctionalInterface
+public interface TimestampAssigner<T> {
+
+    ............
+    
+ long extractTimestamp(T element, long recordTimestamp);
+}
+```
+
+使用的时候我们主要就是从我们自己的元素element中提取我们想要的eventtime。
+
+使用flink自带的水印策略和eventtime抽取类，可以这样用：
+
+```java
+DataStream dataStream = ...... ;
+dataStream.assignTimestampsAndWatermarks(
+    WatermarkStrategy
+      .<Tuple2<String,Long>>forBoundedOutOfOrderness(Duration.ofSeconds(5))
+      .withTimestampAssigner((event, timestamp)->event.f1));
+```
+
+###### 处理空闲数据源
+
+在某些情况下，由于数据产生的比较少，导致一段时间内没有数据产生，进而就没有水印的生成，导致下游依赖水印的一些操作就会出现问题，比如某一个算子的上游有多个算子，这种情况下，水印是取其上游两个算子的较小值，如果上游某一个算子因为缺少数据迟迟没有生成水印，就会出现eventtime倾斜问题，导致下游没法触发计算。
+
+所以filnk通过WatermarkStrategy.withIdleness()方法允许用户在配置的时间内（即超时时间内）没有记录到达时将一个流标记为空闲。这样就意味着下游的数据不需要等待水印的到来。
+
+当下次有水印生成并发射到下游的时候，这个数据流重新变成活跃状态。
+
+通过下面的代码来实现对于空闲数据流的处理
+
+```java
+WatermarkStrategy
+        .<Tuple2<Long, String>>forBoundedOutOfOrderness(Duration.ofSeconds(20))
+        .withIdleness(Duration.ofMinutes(1));
+```
+
+##### 窗口简介 window
+
+窗口是流式计算中非常重要的一个概念, 很多常见的功能都是通过各种窗口实现的, 比如每5分钟统计一下刚去1小时的热度. Flink DataStream API 将窗口独立成 Operator. 每个窗口算子包含了以下几个部分:
+
+**Windows Assigner**
+
+指定窗口的类型, 定义如何将数据流分配到一个或者多个窗口
+
+**Windows Trigger**
+
+指定窗口触发的时机, 定义窗口满足什么样的条件触发计算
+
+**Evictor**
+
+用户数据剔除
+
+**Lateness**
+
+标记是否处理迟到的数据, 当迟到数据到达窗口中是否触发计算
+
+**Output Tag**
+
+标记输出标签, 然后再通过 getSideOutput 将窗口中的数据根据标签输出
+
+**Windows Function**
+
+定义窗口上的数据处理的逻辑, 例如对数据进行sum
+
+##### Window Assigner
+
+首先最需要了解的就是 windows Assigner了, 我们想要一个什么样的窗口划分, 主要就是通过他来实现的.
+
+根据 flink 上游的数据集是否为 KeyedStream 类型 来做分别的处理. 如果使用了keyBy( ) 则对应使用window( ) 来处理, 否则可以使用 windowAll( )来使用
+
+Flink 可以支持两种类型的窗口, 分别是基于时间的窗口和基于数量的窗口.基于时间的意思就是按照时间去划分窗口,同理,基于数量的也是根据窗口中的数量来做切分的. 对应的分别就是 timeWindow() 和 countWindow() 来使用, 下面的示例主要使用 timeWindow() 来演示.
+
+对于不同的 Window Assigner, 还可以把窗口划分为4大类, 分别是 滚动窗口(Tumbling Windows) / 滑动窗口(Sliding Window) / 会话窗口(Session Window) 和 全局窗口(Global Window).
+
+###### 滚动窗口 Tumbling Windows
+
+DataStream API 提供基于 EventTime 和 ProcessingTime 的两种类型的 Tumbling window.对应的 Assigner 分别是 TumblingEventTimeWindow 和 ProcessingEventTimeWindow . 举例如下,完整代码见Github.
+
+```
+// 使用ProcessTime的滚动时间窗口, 长度为10s
+stream.keyBy(x -> x.f1)
+    .window(TumblingProcessingTimeWindows.of(Time.seconds(10))).process(...)
+// 使用ProcessTime的滚动时间窗口, 长度为10s
+stream.keyBy(x ->x.f1).window(TumblingEventTimeWindows.of(Time.seconds(10))).process(...)
+```
+
+使用 window(TumblingProcessingTimeWindows.of(Time.seconds(10))) 的方法有点啰嗦, Flink 还提供了timeWindow( ) 的 API 来简化这一行代码.
+
+```
+// 直接使用 timeWindow API 便可实现滚动窗口的操作, 参数依旧是窗口的长度
+// 窗口类型的时间由 time characteristic 确定, 如果指定为 event time,那么窗口也会自动用这个时间
+input.keyBy(x -> x.f1).timeWindow(Time.seconds(10));
+```
+
+###### 滑动窗口 Sliding Window
+
+滑动窗口顾名思义就是一个在不断往后滑动的窗口, 比如说 每5分钟 统计一个 最近一小时的时间, 那么就需要用滑动窗口来做处理. 滑动窗口主要是依靠 window size 和 slide time 来确定. 与滚动窗口类似的, flink 也提供了对应不同时间的 Assigner API(SlidingEventTimeWindow / SlidingEventTimeWindow), 语法基本类似, 只是由原本的一个参数(窗口长度) 变为了两个参数(窗口长度和滑动时间), 同样的, 为了简化代码, 依然可以使用timeWindow() 来简化.
+
+```
+// 两个参数分别是 窗口长度 和 滑动时间, 窗口时间类型依旧通过time characteristic 确定
+input.keyBy(x -> x.f1).timeWindow(Time.seconds(10), Time.seconds(1))
+```
+
+###### 会话窗口 Session Window
+
+会话窗口主要是将某段时间内活跃度较高的数据聚合成一个窗口计算. 触发条件是 Session Gap. 在规定的时间内没有数据接入则认为这个窗口结束,然后触发窗口计算. Session Gap 除了固定间隔的方式, 也可以动态抽取.
+
+```
+// 创建 Session Window, 间隔为 3s
+        DataStream<Tuple3<String, Long, Integer>> aggregated = source
+                .keyBy(0)
+                .window(EventTimeSessionWindows.withGap(Time.seconds(3L)))
+                .sum(2);
+```
+
+###### 全局窗口 Global Window
+
+全局窗口将所有key的数据分配到单个窗口中计算结果.
+
+```
+// 创建 GlobalWindow
+        input.keyBy(1)
+                .window(GlobalWindows.create())
+                .sum(1);
+```
+
+##### Window Function
+
+Window Assigner 的作用是划分窗口的, 而 Window Function 就是对窗口内的数据做处理的一个过程
+
+###### ReduceFunction (增量)
+
+对输入的两个相同类型的元素按照指定的计算方式进行聚合, 通过实现 ReduceFunction 接口就可以在reduce( ) 函数内部进行聚合操作了.
+
+```java
+input.keyBy(x -> x.f1).timeWindow(Time.seconds(10), Time.seconds(1))
+	.reduce((t1,t2) -> new Tuple2<>(t1.f0 + t2.f0, t1.f1));
+```
+
+ ###### AggregateFunction (增量)
+
+AggregateFunction 相对于ReduceFunction更加灵活,但是实现起来也更复杂, AggregateFunction有 4 个需要复写的方法, 其中createAccumulator( ) 定义累加器, add( ) 定义数据的添加逻辑, getResult( ) 定义了根据 accumulator 计算结果的逻辑, merge()方法定义合并 accumulator 的逻辑.
+
+```java
+input.keyBy(x -> x.f1)
+    .timeWindow(Time.seconds(10), Time.seconds(1))
+    // 自定义一个AggregateFunciton, 将相同标号 f1 的数据的 f0字符串字段合并在一起
+    // ("hello", 1L) + ("world", 1L) = ("hello world", 1L)
+    .aggregate(new MyAggregateFunction());
+```
+
+通过自定义的 MyAggregateFunction() 来实现 AggregateFunction 接口
+
+```java
+public static class MyAggregateFunction implements AggregateFunction<Tuple2<String, Long>, String, String>{
+        @Override
+        public String createAccumulator() {
+        	// 初始化累加器
+            return "";
+        }
+        @Override
+        public String add(Tuple2<String, Long> t, String s) {
+            // 输入数据与累加器的合并
+            return s + " " +t.f0;
+        }
+        @Override
+        public String getResult(String s) {
+            // 得到累加器的结果
+            return s.trim();
+        }
+        @Override
+        public String merge(String s, String acc1) {
+            // 合并累加器
+            return s + " " + acc1;
+        }
+    }
+```
+
+###### FoldFunction (增量)
+
+FoldFunction定义了如何将窗口中的输入元素与外部的元素合并的逻辑
+
+```java
+input.keyBy(x -> x.f1)
+.timeWindow(Time.seconds(10), Time.seconds(1)).fold("flink", (acc, t) ->t.f0 + acc);
+```
+
+FoldFunction在新版本已经被标记@Deprecated了, 建议使用AggregateFunction代替
+
+###### ProcessWindowFunction (全量)
+
+ProcessWindowFunction 相较于其他的 Window Function, 可以实现一些更复杂的计算, 比如基于整个窗口做某些指标计算 或者需要操作窗口中的状态数据和窗口元数据. Flink 提供了 ProcessWindowFunction 这个抽象类, 继承此类就可以实现ProcessWindowFunction, 其中, 必须要实现 process( ) 方法, 这是处理窗口数据的主要方法.还在一下跟窗口数据相关的方法可以有选择的实现.
+
+```java
+public static class MyProcessWindowFunction extends ProcessWindowFunction<Tuple3<String, Long, Long>, String, Long, TimeWindow> {
+	@Override
+    public void process(Long s, Context context, Iterable<Tuple3<String, Long, Long>> 		elements, Collector<String> out) throws Exception {
+        // 统计每个窗口内的所有数据的 f0字段加起来共有多少个单词
+        // 也就做单个窗口的 wordcount
+        Long count = 0L;
+        for (Tuple3<String, Long, Long> element : elements) {
+            count += element.f0.split(" ").length;
+        }
+        out.collect("window: " + context.window() + " word count: " + count);
+	}
+}
+```
+
+##### Window Join
+
+Flink 中支持窗口上的多流合并, 需要保证的是输入的 stream 要构建在相同的 Window 上, 并使用相同类型的 Key 作为关联条件.
+
+```java
+inputStream1.join(inputStream2)
+			// 指定inputStream1的关联key
+			.where(0)
+			// 指定inputStream2的关联key
+			.equalTo(1)
+			// 指定 window Assigner
+			.window(TumblingEventTimeWindows.of(Time.seconds(10)))
+			// 指定窗口计算函数
+			.apply(<JoinFunction>)
+```
+
+##### 处理迟到的元素
+
+迟到的元素是指当这个元素来到时,这个元素所对应的窗口已经计算完毕了(也就是说水位线已经没过窗口结束时间了).这说明迟到这个特性只针对事件时间.
+
+DataStream API提供了三种策略来处理迟到元素
+
+###### 直接抛弃
+
+抛弃迟到的元素是event time window operator的默认行为.也就是说一个迟到的元素不会创建一个新的窗口.
+
+process function可以通过比较迟到元素的时间戳和当前水位线的大小来很轻易的过滤掉迟到元素.
+
+###### 重定向
+
+迟到的元素也可以使用侧输出(side output)特性被重定向到另外的一条流中去.迟到元素所组成的侧输出流可以继续处理或者sink到持久化设施中去.
+
+###### 更新窗口计算结果
+
+由于存在迟到的元素,所以已经计算出的窗口结果是不准确和不完全的.我们可以使用迟到元素更新已经计算完的窗口结果.
+
+window operator API提供了方法来明确声明我们要等待迟到元素.当使用event-time window,我们可以指定一个时间段叫做`allowed lateness`.window operator如果设置了`allowed lateness`,这个window operator在水位线没过窗口结束时间时也将不会删除窗口和窗口中的状态.窗口会在一段时间内(allowed lateness设置的)保留所有的元素.
+
+当迟到元素在`allowed lateness`时间内到达时,这个迟到元素会被实时处理并发送到触发器(trigger).当水位线没过了窗口结束时间+allowed lateness时间时,窗口会被删除,并且所有后来的迟到的元素都会被丢弃.
+
+#### State
+
+
+
+
+
+
+
+
+
 ### 相关链接
 
 [apache flink](https://ci.apache.org/projects/flink/flink-docs-release-1.12/)
 
 [github flink](https://github.com/apache/flink)
+
+[github flink-learning](https://github.com/zhisheng17/flink-learning)
+
+[github flink-simple-tutorial](https://github.com/CheckChe0803/flink-simple-tutorial)
 
 [尚硅谷](https://confucianzuoyuan.github.io/flink-tutorial/)
