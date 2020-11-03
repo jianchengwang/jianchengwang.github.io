@@ -802,7 +802,7 @@ DataStream<String> text = env.addSource(new SourceFunction<String>() {
 通过静态方法`forBoundedOutOfOrderness`提供,入参接收一个Duration类型的时间间隔，也就是我们可以接受的最大的延迟时间.使用这种延迟策略的时候需要我们对数据的延迟时间有一个大概的预估判断。
 
 ```java
-WatermarkStrategy#forBoundedOutOfOrderness(Duration maxOutOfOrderness)
+WatermarkStrategy.forBoundedOutOfOrderness(Duration maxOutOfOrderness)
 ```
 
 我们实现一个延迟3秒的固定延迟水印，可以这样做：
@@ -1115,13 +1115,23 @@ window operator API提供了方法来明确声明我们要等待迟到元素.当
 
 #### State
 
+官方文档有详细描述,这里不多赘述.
 
+https://ci.apache.org/projects/flink/flink-docs-release-1.11/zh/dev/stream/state/state.html
 
+#### Table
 
+Flink本身是批流统一的处理框架,所以Table API和SQL,就是批流统一的上层处理API.目前还在完善中,所以后面待完善.
 
+```groovy
+compileOnly "org.apache.flink:flink-table-api-java-bridge_${scalaBinaryVersion}:${flinkVersion}"
+// 本地运行，线上lib已经包含，不需要引入
+compileOnly "org.apache.flink:flink-table-planner-blink_${scalaBinaryVersion}:${flinkVersion}"
+// 自定义函数，线上lib已经包含，不需要引入
+compileOnly "org.apache.flink:flink-table-common:${flinkVersion}"
+```
 
-
-
+**未完待续.....**
 
 ### 相关链接
 
