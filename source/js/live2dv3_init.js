@@ -1,5 +1,5 @@
 
-document.write('<div class="Canvas" style="position: fixed; left: -100px; bottom: 10px;z-index: 99999999" id="L2dCanvas"></div>');
+document.write('<div class="Canvas" style="position: fixed; right: -120px; bottom: 5px;z-index: 99999999" id="L2dCanvas"></div>');
 <!------ 依赖 JS ------>
 <!---- 可选 ---->
 <!-- 兼容低版本浏览器 -->
