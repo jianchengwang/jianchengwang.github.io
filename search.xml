@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>live2d-web</title>
+      <link href="2020/11/04/web/live2d/live2d-web/"/>
+      <url>2020/11/04/web/live2d/live2d-web/</url>
+      
+        <content type="html"><![CDATA[<p><code>Live2d</code> 是一种应用于电子游戏的绘图渲染技术,技术由日本Cybernoids公司开发.</p><p>最近博客想换个<strong>看板娘</strong> ,网上找到的一般都只不支持<strong>moc3</strong> .所以本着自己动手,丰衣足食的想法,便入坑学习一波.</p><a id="more"></a><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p><a href="https://www.live2d.com/download/cubism/">Live2D Cubism</a> </p><ul><li>Live2D Cubism Viewer 4.0 查看模型的软件</li><li>Live2D Cubism Editor 4.0 制作模型的软件</li></ul><p><a href="https://www.live2d.com/download/cubism-sdk/">Live2d Web Sdk</a></p><p>解压后推荐用<strong>vscode</strong>进行编辑</p><pre class="language-shell" data-language="shell"><code class="language-shell">unzip CubismSdkForWeb-4-r.1.zipcd CubismSdkForWeb-4-r.1&#x2F;Samples&#x2F;TypeScript&#x2F;Demonpm installnpm run buildnpm run serve</code></pre><p>访问 <a href="http://localhost:5000/Samples/TypeScript/Demo/">http://localhost:5000/Samples/TypeScript/Demo/</a> 看下demo效果</p><h3 id="示例源码"><a href="#示例源码" class="headerlink" title="示例源码"></a>示例源码</h3><p><strong>lappdefine.ts</strong>  定义基本的参数<br><strong>lappdelegate.ts</strong> 初始化,释放资源,事件绑定<br><strong>lapplive2dmanager.ts</strong> 模型的管理类,进行模型生成和废弃,事件的处理,模型切换.<br><strong>lappmodel.ts</strong> 模型类,定义模型的基本属性<br><strong>lappal.ts</strong> 读取文件,抽象文件数据(算是工具类)<br><strong>lappsprite.ts</strong> 动画精灵类,(有h5游戏开发应该了解)<br><strong>lapptexturemanager.ts</strong> 纹理管理类,进行图像读取和管理的类<br><strong>lappview.ts</strong> 视图类,生成模型的图像被lapplive2dmanager管理<br><strong>main.ts</strong> 主程序启动程序<br><strong>touchmanager.ts</strong> 事件的管理类(比如移动鼠标,点击鼠标,触摸屏触碰等)</p><p><strong>index.html</strong> 页面入口,我们可以看到非常简单,就是引入几个js</p><pre class="language-html" data-language="html"><code class="language-html"><span class="token comment">&lt;!-- Pollyfill script --></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://unpkg.com/core-js-bundle@3.6.1/minified.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><span class="token comment">&lt;!-- Live2DCubismCore script --></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>../../../Core/live2dcubismcore.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><span class="token comment">&lt;!-- Build script --></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>./dist/bundle.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre><h3 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h3><h4 id="Index-html"><a href="#Index-html" class="headerlink" title="Index.html"></a>Index.html</h4>]]></content>
+      
+      
+      <categories>
+          
+          <category> play </category>
+          
+          <category> live2d </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> live2d </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>flink</title>
       <link href="2020/11/03/java/middleware/flink/"/>
       <url>2020/11/03/java/middleware/flink/</url>
