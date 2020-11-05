@@ -141,5 +141,5 @@ footer:
 head:
   js:
     base: 
-      live2dv3_init: /js/live2dv3_init.js
+      live2dv3.init: https://cdn.jsdelivr.net/gh/jianchengwang/live2d_models@main/assets/js/live2dv3.init.js
 
