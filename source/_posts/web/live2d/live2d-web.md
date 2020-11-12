@@ -1,7 +1,7 @@
 ---
 title: live2d-web
 categories: 
-- play
+- web
 - live2d
 tags: 
 - live2d
