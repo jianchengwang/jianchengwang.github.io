@@ -72,7 +72,7 @@ social:
   - name: Files
     link: https://files.jianchengwang.info/
     icon: icon-folder-line
-    color: dodgerblue
+    color: blue
   - name: Travelling
     link: https://travellings.now.sh/
     icon: icon-send-plane-2-line
@@ -118,7 +118,7 @@ widget_tree:
   hide: false
   layout: default
   toc:
-    enable: true
+    enable: false
 
 codeblock:
   copy_btn: true
@@ -137,6 +137,8 @@ footer:
   beian:
     enable: true
     icp: 闽ICP备16000680号
+  custom_text: <a style="display:inline-block" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="blank" title="又拍云"><img height="30" src="https://blog.res.jianchengwang.info/upyun-logo.png" alt="upyun"/></a>
+
 
 head:
   js:
