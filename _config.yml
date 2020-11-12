@@ -29,7 +29,10 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: 
+  - html/**/*
+  - project/**/*
+
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -136,5 +139,4 @@ live2d:
     scale: 0.5 # 移动设备上的缩放
   react:
     opacity: 0.7 # 透明度
-
 

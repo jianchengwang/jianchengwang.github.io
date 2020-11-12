@@ -27,9 +27,13 @@ update_() {
   cd ./themes/yun
   git pull hexo
   cd ../../
+  deploy_
+  echo 'update done'
+}
+
+deploy_() {
   hexo clean &&  hexo g && hexo d
   rm -rf /root/www/blog/* && cp -rf ./public/. /root/www/blog
-  echo 'update done'
 }
 
 type=$1
@@ -42,6 +46,9 @@ c)
   ;;
 u)
   update_
+  ;;
+d)
+  deploy_
   ;;
 *) echo '
   打包脚本说明
