@@ -378,7 +378,9 @@ ADD复制文件
 - `ADD <src>... <dest>`
 - `ADD ["<src>",... "<dest>"]`
 
-从`src`目录复制文件到容器的`dest`。其中`src`可以是`Dockerfile`所在目录的相对路径，也可以是一个URL，还可以是一个压缩包
+从`src`目录复制文件到容器的`dest`。其中`src`可以是`Dockerfile`所在目录的相对路径，也可以是一个URL，还可以是一个压缩包。
+
+除了要复制解压文件，一般不建议使用，使用`RUN`跟`COPY`命令就可以很好替代。
 
 ```dockerfile
 ADD microservice-discovery-eureka-0.0.1-SNAPSHOT.jar app.jar
@@ -402,7 +404,7 @@ ARG user1=someuser
 
 支持三种格式：
 
-`CMD ["executable","param1","param2"]` (推荐使用)
+`CMD ["executable","param1","param2"]` (推荐使用，会解析成json数组，所以要记得要用**双引号**)
 
 `CMD ["param1","param2"]` (为`ENTRYPOINT`指令提供预设参数)
 
@@ -590,3 +592,5 @@ docker run -volume-from 容器ID 镜像名称  # 容器ID是di一个容器的ID�
 [Docker官方网站](https://www.docker.com/)
 
 [Docker GitHub](https://github.com/docker/docker)
+
+[Docker 入门到实践](https://yeasy.gitbook.io/docker_practice)
