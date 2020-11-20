@@ -7,7 +7,7 @@ tags:
 - flask
 ---
 
-`Flask` 是一个使用 Python 语言编写的 Web 框架，它可以让你高效的编写 Web 程序。我最近用`flask+vue`搭建一个简单的`todolist` 项目示例来学习，主要是参考[flask-tutorial](https://github.com/greyli/flask-tutorial)，感兴趣的可以看看。
+`Flask` 是一个使用 Python 语言编写的 Web 框架，它可以让你高效的编写 Web 程序。我最近用`flask+vue`搭建一个简单的`todolist` 项目示例来学习，主要是参考[flask-tutorial](https://github.com/greyli/flask-tutorial)，感兴趣的可以看看，[示例代码](https://github.com/jianchengwang/todo-python/raw/master/flask/todo-list)
 
 <!-- more -->
 
@@ -331,7 +331,6 @@ class TodoItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 主键
     title = db.Column(db.String(32))  # 标题
     descs = db.Column(db.String(256))  # 描述
-    isDone = db.Column(db.Boolean) # 是否完成
 ```
 
 ### 自定义命令
@@ -446,8 +445,8 @@ class TodoItemSchema(ma.SQLAlchemyAutoSchema):
 @app.route('/todoItems', methods=['GET'])
 def all():
     todoItems = TodoItem.query.all()
-    todoitems_schema = TodoItemSchema(many=True)
-    return jsonify(result = todoitems_schema.dumps(todoItems))
+    todoitems_schema = TodoItemSchema()
+    return jsonify(result = todoitems_schema.dump(todoItems, many=True))
 ```
 
 ## 用户认证
@@ -480,7 +479,35 @@ class User(db.Model):
 pip3 install flask-jwt-extended
 ```
 
+```python
+from flask_jwt_extended import (
+    create_access_token,
+    jwt_required,
+    get_jwt_identity
+)
 
+# 创建toekn
+access_token = create_access_token(identity=username)
+# 获取当前用户
+current_user_name = get_jwt_identity()
+
+# 装饰器拦截接口
+@app.route('/todoItem', methods=['POST'])
+@jwt_required
+def add():
+    todoItem = TodoItem(title = request.form['title'], descs = request.form['descs'])
+    db.session.add(todoItem)
+    db.session.commit()
+    return utils.result(msg= 'Item added.')
+```
+
+## 代码结构
+
+代码结构调整，待定。。。
+
+## 打包部署
+
+待定
 
 ## 相关链接
 
