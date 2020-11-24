@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>keep-async-await-from-blocking-execution</title>
+      <link href="2020/11/24/web/js/keep-async-await-from-blocking-execution/"/>
+      <url>2020/11/24/web/js/keep-async-await-from-blocking-execution/</url>
+      
+        <content type="html"><![CDATA[<p><code>Promises</code> are extremely powerful for handling asynchronous operations in JavaScript. <code>Async</code> functions make them easier to read and reason about. However, they also introduce some sneaky traps that can lead to slowdowns if we’re not careful.</p><a id="more"></a>]]></content>
+      
+      
+      <categories>
+          
+          <category> web </category>
+          
+          <category> js </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> async </tag>
+            
+            <tag> await </tag>
+            
+            <tag> promise </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>flask-todolist</title>
       <link href="2020/11/20/python/web/flask-todolist/"/>
       <url>2020/11/20/python/web/flask-todolist/</url>
