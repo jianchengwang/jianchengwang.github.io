@@ -10,6 +10,10 @@ tags:
 
 最近喵了下 [Introduction to Serverless Functions](https://frontendmasters.com/courses/serverless-functions/) 视频感觉还不错。下面主要根据视频作者`Jason Lengstorf` 的`ppt` 简单做下笔记，最底下会列出相关链接。
 
+[示例代码](https://github.com/jianchengwang/todo-web/raw/master/serverless/frontendmasters-serverless)
+
+[示例网站](https://demo-frontentedmaster-serverless-functions.netlify.app/)
+
 <!-- more -->
 
 ## 前言
@@ -383,7 +387,7 @@ exports.handler = async function(event) {
 ntl init
 ```
 
-我这边不知道是因为网络原因还是啥的，`netlify-cli`认证不了，所以我直接登录[app.netlify](https://app.netlify.com/)操作了，部署后，可以直接在线访问[示例网站](https://demo-frontentedmaster-serverless-functions.netlify.app/)，
+我这边不知道是因为网络原因还是啥的，`netlify-cli`认证不了，所以我直接登录[app.netlify](https://app.netlify.com/)操作了，部署后，可以直接[在线访问](https://demo-frontentedmaster-serverless-functions.netlify.app/)，
 
 **app.netlify** 对应站点管理，对我们刚部署的站点启用`Identify`，
 
