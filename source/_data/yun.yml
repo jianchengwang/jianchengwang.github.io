@@ -123,6 +123,11 @@ widget_tree:
 local_search:
   enable: true
   src: /js/search/local-search.js
+  
+search:
+  modal: true
+  bg_image: https://blog.res.jianchengwang.info/albums/wallpaper/1.jpg
+  dark: https://blog.res.jianchengwang.info/albums/wallpaper/2.jpg
 
 codeblock:
   copy_btn: true
