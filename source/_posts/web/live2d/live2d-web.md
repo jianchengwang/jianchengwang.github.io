@@ -260,7 +260,6 @@ public setBgImg(bgImg: string) {
 模型作者：罐装猫粮君
 模型出处：[【Live2D工房】Vol.1 Part2 尤 脸扁再来一份 《少女终末旅行》](https://www.bilibili.com/video/av17779694)
 
-****
 
 ##### 雪未来 snow_miku
 
@@ -280,7 +279,7 @@ public setBgImg(bgImg: string) {
 
 ##### 凉风青叶 aoba
 
-##### ![](https://github.com/jianchengwang/live2d_models/raw/main/_model_images/aoba.jpg)
+ ![](https://github.com/jianchengwang/live2d_models/raw/main/_model_images/aoba.jpg)
 
 来自 New Game! 的凉风青叶和你见面啦！
 

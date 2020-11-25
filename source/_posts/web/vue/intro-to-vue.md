@@ -693,7 +693,7 @@ export default {
 
 ### NUXT
 
-服务端渲染
+服务端渲染，不需要定义路由视图，
 
 ## Vuex
 
@@ -805,6 +805,111 @@ store.state.a // -> moduleA 的状态
 store.state.b // -> moduleB 的状态
 ```
 
+## Composition API
+
+**VUE3** 引入的新特性，[composition-api-introduction](https://v3.vuejs.org/guide/composition-api-introduction.html)
+
+当然**VUE2**也可以使用，
+
+```shell
+npm i @vue/composition-api -S
+```
+
+以前`vue2`的时候，组件结构规范，比如`data()` 声明数据变量，`methods` 声明方法，这样的结构当然有看起来当然结构清晰，但是另一方面，会导致数据变量分散开来，因为这个原因，`vue`又引发魔法的`this`的，使得组件里面属性里面的`this`总是指向当前组件。
+
+引入`Composition API`的，相当于就把方法，变量等组件属性抽离出来，形成一个整体的功能函数，按需载入，返回所需，它们不会修改或改变函数范围之外的东西，所以在多次执行时，总是会可靠地接收到相同的值和相同的输入；当然对`typescript`也支持更好，毕竟`vue3`才有`typescript`重写，同时消除了让人困惑的魔法`this`
+
+下面举个简单例子，
+
+`Components`写法
+
+```js
+const App = {
+    data() {
+        return {
+            count: 0
+        }
+    },
+    props: { 
+      countA: {
+        type: Number,
+        required: true
+      }
+    },
+    mounted(){
+      console.log('component is mounted!')
+    }
+    methods: {
+        increment: function() {
+            this.count++;
+            console.info(this.count)
+        }
+    }
+}
+```
+
+`Composition API` 写法
+
+```js
+const { ref, reactive, computed } = Vue
+const App = {
+   props: { 
+      countA: {
+        type: Number,
+        required: true
+      }
+    },
+    setup(props, context) {
+        const count = ref(0)
+        const state = reactive({
+            count: 0,
+            double: computed(() => state.count * 2)
+        })
+        watch(state, (newValue, oldValue) => {
+            console.log(newValue.count)
+        })
+        watchEffect(() => {
+            console.log(state.count)
+        })
+        onMounted(() => {
+          console.log('component is mounted!')
+        })
+        function increment() {
+            count.value++
+            state.count++;
+        	console.info(count.value)
+            console.info(state.count)
+        	console.info(props.countA)
+        }
+        context.emit('eventName')
+        return {
+             count,
+            // state
+            ...toRefs(state)
+             increment
+        }
+    }
+}
+```
+
+**Single File Components** `<script setup>`
+
+```js
+<script setup>
+  const state = reactive({
+    count: 0
+  })
+
+  onMounted(() => {
+    console.log(state.count)
+  })
+
+  return {
+    state
+  }
+</script>
+```
+
 
 
 ## 相关链接
@@ -813,4 +918,6 @@ store.state.b // -> moduleB 的状态
 
 [github: sdras intro-to-vue ](https://github.com/sdras/intro-to-vue)
 
-[vue.js org](https://vuejs.org/v2/guide/)
+[vue.js org](https://v3.vuejs.org/)
+
+[github:nuxt](https://github.com/nuxt)

@@ -98,6 +98,11 @@ include:
 exclude:
 ignore:
 
+search:
+  path: search.xml
+  field: post
+  content: true
+
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/

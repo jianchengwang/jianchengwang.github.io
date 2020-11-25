@@ -117,8 +117,12 @@ widget_tree:
   cdn: true
   hide: false
   layout: default
-  toc:
-    enable: false
+  
+# search
+# https://github.com/wzpan/hexo-generator-search
+local_search:
+  enable: true
+  src: /js/search/local-search.js
 
 codeblock:
   copy_btn: true
