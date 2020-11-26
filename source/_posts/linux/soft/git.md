@@ -61,7 +61,7 @@ Git 的工作完全依赖于这类指纹字串，所以你会经常看到这样�
 
 如果用detached HEAD提交，那么最后一次提交会被the reflog for HEAD引用。但是过一段时间就失效，最终被回收，与`git commit --amend`或者`git rebase`很像。
 
-### Git 基本命令
+### 基本命令
 
 Git 命令是一些命令行工具的集合，它可以用来跟踪，记录文件的变动。比如你可以进行保存，比对，分析，合并等等，这个过程被称之为版本控制。
 
@@ -524,6 +524,43 @@ ssh-add ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub
 ```
 
+### Hub
+
+[hub](https://hub.github.com/) is *an extension to command-line git* that helps you do everyday GitHub tasks without ever leaving the terminal
+
+我一般比较常用`hub create`命令，你也可以设置别名 `git -> hub`
+
+```shell
+# indicate that you prefer HTTPS to SSH git clone URLs
+git config --global hub.protocol https
+
+# create a repo to host a new project on GitHub
+git init
+git add .
+git commit -m "And so, it begins."
+hub create
+→ (creates a new GitHub repository with the name of the current directory)
+git push -u origin HEAD
+
+# clone your own project
+hub clone dotfiles
+→ git clone git://github.com/YOUR_USER/dotfiles.git
+
+# clone another project
+hub clone github/hub
+→ git clone git://github.com/github/hub.git
+
+# fast-forward all local branches to match the latest state on the remote
+cd myproject
+hub sync
+
+# share log output via Gist
+hub gist create --copy build.log
+→ (the URL of the new private gist copied to clipboard)
+```
+
+
+
 ### 相关链接
 
 [官方文档](https://git-scm.com/docs/)
@@ -541,3 +578,5 @@ cat ~/.ssh/id_rsa.pub
 [git指南](http://rogerdudler.github.io/git-guide/index.zh.html)
 
 [Git Tutorial](https://www.vogella.com/tutorials/Git/article.html)
+
+[hub](https://hub.github.com/)

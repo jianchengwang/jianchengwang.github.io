@@ -10,9 +10,7 @@ tags:
 
 最近喵了下 [Introduction to Serverless Functions](https://frontendmasters.com/courses/serverless-functions/) 视频感觉还不错。下面主要根据视频作者`Jason Lengstorf` 的`ppt` 简单做下笔记，最底下会列出相关链接。
 
-[示例代码](https://github.com/jianchengwang/todo-web/raw/master/serverless/frontendmasters-serverless)
-
-[示例网站](https://demo-frontentedmaster-serverless-functions.netlify.app/)
+[示例代码](https://github.com/jianchengwang/todo-web/raw/master/serverless/frontendmasters-serverless) [示例网站](https://demo-frontentedmaster-serverless-functions.netlify.app/)
 
 <!-- more -->
 
